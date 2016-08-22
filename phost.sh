@@ -44,8 +44,6 @@ echo "[$USERNAME]
  
 listen = /var/run/php/php7.0-fpm.sock
 listen.mode = 0666
-user = $USERNAME
-group = $USERNAME
 chdir = /var/www/$USERNAME
  
 php_admin_value[upload_tmp_dir] = /var/www/$USERNAME/tmp
