@@ -6,6 +6,10 @@ read USERNAME
 echo "Enter domain"
 read DOMAIN
 
+mkdir /var/www/$USERNAME/tmp
+mkdir /var/www/$USERNAME/logs
+chmod -R 755 /var/www/$USERNAME/
+
 echo "Creating vhost file"
 echo "
 server {
@@ -40,7 +44,7 @@ ln -s /etc/nginx/sites-available/$USERNAME.conf /etc/nginx/sites-enabled/$USERNA
 
 echo "Creating php7.0-fpm config"
  
-echo "[$USERNAME]
+echo "[www-data]
  
 listen = /var/run/php/php7.0-fpm.sock
 listen.mode = 0666
