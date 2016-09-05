@@ -71,17 +71,23 @@ pm.min_spare_servers = 2
 pm.max_spare_servers = 4
 " > /etc/php/7.0/fpm/pool.d/$USERNAME.conf
 
-echo "Enter MySQL root password:"
-read ROOTPASS
+I=`dpkg -s mysql | grep "Status" `
+if [ -n "$I" ]
+then
 
-echo "Enter MySQL new DB password:"
-read MYSQLPASS
+	echo "Enter MySQL root password:"
+	read ROOTPASS
+	
+	echo "Enter password for new DB:"
+	read MYSQLPASS
+	
+	echo "Creating database"
+	
+	Q1="CREATE DATABASE IF NOT EXISTS $USERNAME DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;;"
+	Q2="GRANT ALTER,DELETE,DROP,CREATE,INDEX,INSERT,SELECT,UPDATE,CREATE TEMPORARY TABLES,LOCK TABLES ON $USERNAME.* TO '$USERNAME'@'localhost' IDENTIFIED BY '$MYSQLPASS';"
+	Q3="FLUSH PRIVILEGES;"
+	SQL="${Q1}${Q2}${Q3}"
+	
+	mysql -uroot --password=$ROOTPASS -e "$SQL"
 
-echo "Creating database"
-
-Q1="CREATE DATABASE IF NOT EXISTS $USERNAME DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;;"
-Q2="GRANT ALTER,DELETE,DROP,CREATE,INDEX,INSERT,SELECT,UPDATE,CREATE TEMPORARY TABLES,LOCK TABLES ON $USERNAME.* TO '$USERNAME'@'localhost' IDENTIFIED BY '$MYSQLPASS';"
-Q3="FLUSH PRIVILEGES;"
-SQL="${Q1}${Q2}${Q3}"
- 
-mysql -uroot --password=$ROOTPASS -e "$SQL"
+fi
