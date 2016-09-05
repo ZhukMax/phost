@@ -71,6 +71,9 @@ pm.min_spare_servers = 2
 pm.max_spare_servers = 4
 " > /etc/php/7.0/fpm/pool.d/$USERNAME.conf
 
+service nginx restart
+service php7.0-fpm restart
+
 I=`dpkg -s mysql | grep "Status" `
 if [ -n "$I" ]
 then
