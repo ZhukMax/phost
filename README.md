@@ -2,7 +2,7 @@
 Bash script for fast add host on server for Phalcon project
 
 # Use
-* `git clone https://github.com/ZhukMax/phost.git`
-* `sudo chmod +x phost/phost.sh`
-* `sudo phost/phost.sh`
+* `wget https://github.com/ZhukMax/phost/blob/master/phost.sh`
+* `sudo chmod +x phost.sh`
+* `sudo phost.sh`
 * *answer the questions*
