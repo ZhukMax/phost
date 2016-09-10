@@ -2,10 +2,11 @@
 
 echo "Enter username for site:"
 read USERNAME
- 
+
 echo "Enter domain"
 read DOMAIN
 
+mkdir /var/www/$USERNAME
 mkdir /var/www/$USERNAME/tmp
 mkdir /var/www/$USERNAME/logs
 mkdir /var/www/$USERNAME/public
