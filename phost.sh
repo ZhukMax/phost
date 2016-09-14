@@ -47,7 +47,7 @@ ln -s /etc/nginx/sites-available/$USERNAME.conf /etc/nginx/sites-enabled/$USERNA
 
 echo "Creating php7.0-fpm config"
  
-echo "[www-data]
+echo "[www]
  
 listen = /var/run/php/php7.0-fpm.sock
 listen.mode = 0666
