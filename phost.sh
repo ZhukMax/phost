@@ -45,33 +45,6 @@ server {
 " > /etc/nginx/sites-available/$USERNAME.conf
 ln -s /etc/nginx/sites-available/$USERNAME.conf /etc/nginx/sites-enabled/$USERNAME.conf
 
-echo "Creating php7.0-fpm config"
- 
-echo "[www]
- 
-listen = /var/run/php/php7.0-fpm.sock
-listen.mode = 0666
-chdir = /var/www/$USERNAME
- 
-php_admin_value[upload_tmp_dir] = /var/www/$USERNAME/tmp
-php_admin_value[soap.wsdl_cache_dir] = /var/www/$USERNAME/tmp
-php_admin_value[upload_max_filesize] = 100M
-php_admin_value[post_max_size] = 100M
-php_admin_value[open_basedir] = /var/www/$USERNAME/
-php_admin_value[disable_functions] = exec,passthru,shell_exec,system,proc_open,popen,curl_multi_exec,parse_ini_file,show_source,stream_socket_client,stream_set_write_buffer,stream_socket_sendto,highlight_file,com_load_typelib
-php_admin_value[cgi.fix_pathinfo] = 0
-php_admin_value[date.timezone] = Europe/London
-php_admin_value[session.gc_probability] = 1
-php_admin_value[session.gc_divisor] = 100
- 
- 
-pm = dynamic
-pm.max_children = 10
-pm.start_servers = 2
-pm.min_spare_servers = 2
-pm.max_spare_servers = 4
-" > /etc/php/7.0/fpm/pool.d/$USERNAME.conf
-
 service nginx restart
 service php7.0-fpm restart
 
