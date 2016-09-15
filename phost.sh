@@ -49,10 +49,10 @@ service nginx restart
 service php7.0-fpm restart
 
 echo "Enter MySQL root password:"
-read ROOTPASS
+read -s ROOTPASS
 
 echo "Enter password for new DB:"
-read MYSQLPASS
+read -s MYSQLPASS
 
 echo "Creating database"
 
