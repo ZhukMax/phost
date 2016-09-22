@@ -6,10 +6,10 @@ read USERNAME
 echo "Enter domain"
 read DOMAIN
 
-mkdir /var/www/$USERNAME
+cd /var/www
+phalcon create-project $USERNAME
 mkdir /var/www/$USERNAME/tmp
 mkdir /var/www/$USERNAME/logs
-mkdir /var/www/$USERNAME/public
 chmod -R 755 /var/www/$USERNAME/
 chown www-data:www-data /var/www/$USERNAME
 
