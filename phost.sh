@@ -48,6 +48,10 @@ ln -s /etc/nginx/sites-available/$USERNAME.conf /etc/nginx/sites-enabled/$USERNA
 service nginx restart
 service php7.0-fpm restart
 
+echo "MySQL[1] or PostgreSQL[2]"
+echo "(default 1):"
+read DBVERS
+
 echo "Enter DataBase root password:"
 read -s ROOTPASS
 
@@ -60,6 +64,10 @@ Q1="CREATE DATABASE IF NOT EXISTS $USERNAME DEFAULT CHARACTER SET utf8 COLLATE u
 Q2="GRANT ALTER,DELETE,DROP,CREATE,INDEX,INSERT,SELECT,UPDATE,CREATE TEMPORARY TABLES,LOCK TABLES ON $USERNAME.* TO '$USERNAME'@'localhost' IDENTIFIED BY '$SQLPASS';"
 Q3="FLUSH PRIVILEGES;"
 SQL="${Q1}${Q2}${Q3}"
-	
-mysql -uroot --password=$ROOTPASS -e "$SQL"
-psql -username=root --password=$ROOTPASS -e "$SQL"
+
+if [[ $DBVERS = 2 ]]
+then
+	psql -username=root --password=$ROOTPASS -e "$SQL"
+else
+	mysql -uroot --password=$ROOTPASS -e "$SQL"
+fi
