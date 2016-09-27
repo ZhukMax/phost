@@ -62,3 +62,4 @@ Q3="FLUSH PRIVILEGES;"
 SQL="${Q1}${Q2}${Q3}"
 	
 mysql -uroot --password=$ROOTPASS -e "$SQL"
+psql -username=root --password=$ROOTPASS -e "$SQL"
