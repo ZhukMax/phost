@@ -5,9 +5,27 @@ read USERNAME
 
 echo "Enter domain"
 read DOMAIN
+ 
+echo "Blank (b), new (n) or exists (x) project?"
+echo "default - blank (b):"
+read PROJECT
 
-cd /var/www
-phalcon create-project $USERNAME
+if [ $PROJECT == n ] || [$PROJECT == new]
+then
+	cd /var/www
+	phalcon create-project $USERNAME
+elif [ $PROJECT == x ] || [$PROJECT == exists]
+then
+	mkdir /var/www/$USERNAME
+	cd /var/www/$USERNAME
+	echo "Enter url to your git-repository:"
+	read REPO
+	git clone $REPO
+	cd ~
+else
+then
+	mkdir /var/www/$USERNAME
+fi
 mkdir /var/www/$USERNAME/tmp
 mkdir /var/www/$USERNAME/logs
 chmod -R 755 /var/www/$USERNAME/
