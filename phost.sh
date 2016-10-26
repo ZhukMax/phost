@@ -1,20 +1,53 @@
-#!/bin/bash 
+#!/bin/bash
+
+# Keys for script
+while [ 1 ] ; do 
+   if [ "$1" = "--blank" ] ; then 
+      PROJECT="b" 
+   elif [ "$1" = "-b" ] ; then 
+      PROJECT="b"
+   elif [ "$1" = "--new" ] ; then 
+      PROJECT="n" 
+   elif [ "$1" = "-n" ] ; then 
+      PROJECT="n"
+   elif [ "$1" = "--exists" ] ; then 
+      PROJECT="x" 
+   elif [ "$1" = "-x" ] ; then 
+      PROJECT="x"
+   elif [ "$1" = "--postgresql" ] ; then
+      DBVERS=2
+   elif [ "$1" = "-p" ] ; then
+      DBVERS=2
+   elif [ "$1" = "--mysql" ] ; then
+      DBVERS=1
+   elif [ "$1" = "-m" ] ; then
+      DBVERS=1
+   elif [ -z "$1" ] ; then 
+      break
+   else 
+      echo "Error: unknown key" 1>&2 
+      exit 1 
+   fi 
+   shift 
+done
 
 echo "Enter username for site:"
 read USERNAME
 
 echo "Enter domain"
 read DOMAIN
- 
-echo "Blank (b), new (n) or exists (x) project?"
-echo "default - blank (b):"
-read PROJECT
 
-if [ $PROJECT == n ] || [$PROJECT == new]
+if [ -z "$PROJECT" ] ; then
+	echo "Blank (b), new (n) or exists (x) project?"
+	echo "default - blank (b):"
+	read PROJECT
+fi
+
+if [ "$PROJECT" == n ] || [ "$PROJECT" == new ]
 then
 	cd /var/www
 	phalcon create-project $USERNAME
-elif [ $PROJECT == x ] || [$PROJECT == exists]
+elif [ "$PROJECT" == x ] || [ "$PROJECT" == exists ]
 then
 	mkdir /var/www/$USERNAME
 	cd /var/www/$USERNAME
@@ -23,9 +56,9 @@ then
 	git clone $REPO
 	cd ~
 else
-then
 	mkdir /var/www/$USERNAME
 fi
+
 mkdir /var/www/$USERNAME/tmp
 mkdir /var/www/$USERNAME/logs
 chmod -R 755 /var/www/$USERNAME/
@@ -66,9 +99,11 @@ ln -s /etc/nginx/sites-available/$USERNAME.conf /etc/nginx/sites-enabled/$USERNA
 service nginx restart
 service php7.0-fpm restart
 
-echo "MySQL[1] or PostgreSQL[2]"
-echo "(default 1):"
-read DBVERS
+if [ -z "$DBVERS" ] ; then
+	echo "MySQL[1] or PostgreSQL[2]"
+	echo "(default 1):"
+	read DBVERS
+fi
 
 echo "Enter DataBase root password:"
 read -s ROOTPASS
@@ -83,8 +118,7 @@ Q2="GRANT ALTER,DELETE,DROP,CREATE,INDEX,INSERT,SELECT,UPDATE,CREATE TEMPORARY T
 Q3="FLUSH PRIVILEGES;"
 SQL="${Q1}${Q2}${Q3}"
 
-if [[ $DBVERS = 2 ]]
-then
+if [[ "$DBVERS" = 2 ]] ; then
 	psql -username=root --password=$ROOTPASS -e "$SQL"
 else
 	mysql -uroot --password=$ROOTPASS -e "$SQL"
