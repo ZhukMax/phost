@@ -33,6 +33,14 @@ while [ 1 ] ; do
    shift 
 done
 
+if [ -z "$DBVERS" ] ; then
+	if hash mysql 2>/dev/null; then
+		DBVERS=1
+	else
+		DBVERS=2
+	fi
+fi
+
 if [ -z "$DELETE" ] ; then
 
 	echo "Enter project name for site:"
@@ -103,11 +111,11 @@ if [ -z "$DELETE" ] ; then
 	service nginx restart
 	service php7.0-fpm restart
 
-	if [ -z "$DBVERS" ] ; then
-		echo "MySQL[1] or PostgreSQL[2]"
-		echo "(default 1):"
-		read DBVERS
-	fi
+	#if [ -z "$DBVERS" ] ; then
+	#	echo "MySQL[1] or PostgreSQL[2]"
+	#	echo "(default 1):"
+	#	read DBVERS
+	#fi
 
 	echo "Enter DataBase root password:"
 	read -s ROOTPASS
@@ -136,8 +144,13 @@ else
 	echo "Enter DataBase root password:"
 	read -s ROOTPASS
 	
-	mysql -uroot --password=$ROOTPASS -e "DROP USER $USERNAME@localhost"
-	mysql -uroot --password=$ROOTPASS -e "DROP DATABASE $USERNAME"
+	if [[ "$DBVERS" = 2 ]] ; then
+		psql -uroot --password=$ROOTPASS -e "DROP USER $USERNAME@localhost"
+		psql -uroot --password=$ROOTPASS -e "DROP DATABASE $USERNAME"
+	else
+		mysql -uroot --password=$ROOTPASS -e "DROP USER $USERNAME@localhost"
+		mysql -uroot --password=$ROOTPASS -e "DROP DATABASE $USERNAME"
+	fi
 	
 	rm -f /etc/nginx/sites-enabled/$USERNAME.conf
 	rm -f /etc/nginx/sites-available/$USERNAME.conf
