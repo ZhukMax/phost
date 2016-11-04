@@ -132,6 +132,12 @@ else
 
 	echo "Enter project name for delete:"
 	read USERNAME
+
+	echo "Enter DataBase root password:"
+	read -s ROOTPASS
+	
+	mysql -uroot --password=$ROOTPASS -e "DROP USER $USERNAME@localhost"
+	mysql -uroot --password=$ROOTPASS -e "DROP DATABASE $USERNAME"
 	
 	rm -f /etc/nginx/sites-enabled/$USERNAME.conf
 	rm -f /etc/nginx/sites-available/$USERNAME.conf
