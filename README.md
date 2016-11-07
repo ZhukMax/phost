@@ -6,3 +6,6 @@ Bash script for fast add host on server for Phalcon project
 * `sudo chmod +x ./phost/phost.sh`
 * `sudo phost/phost.sh`
 * *answer the questions*
+
+For delete host use this script with key '--delete':
+`sudo phost/phost.sh --delete`
