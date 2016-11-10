@@ -61,18 +61,16 @@ if [ -z "$DELETE" ] ; then
 		phalcon create-project $USERNAME
 	elif [ "$PROJECT" == x ] || [ "$PROJECT" == exists ]
 	then
-		mkdir /var/www/$USERNAME
+		mkdir -p /var/www/$USERNAME
 		cd /var/www/$USERNAME
 		echo "Enter url to your git-repository:"
 		read REPO
 		git clone $REPO
 		cd ~
-	else
-		mkdir /var/www/$USERNAME
 	fi
 
-	mkdir /var/www/$USERNAME/tmp
-	mkdir /var/www/$USERNAME/logs
+	mkdir -p /var/www/$USERNAME/tmp
+	mkdir -p /var/www/$USERNAME/logs
 	chmod -R 755 /var/www/$USERNAME/
 	chown www-data:www-data /var/www/$USERNAME
 
