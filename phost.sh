@@ -98,17 +98,15 @@ if [ -z "$DBVERS" ] ; then
 	sqlVersion
 fi
 
+if [ -z "$PROJECT" ] ; then
+	PROJECT="b"
+fi
+
 echo "Enter project name for site:"
 read USERNAME
 
 echo "Enter domain:"
 read DOMAIN
-
-if [ -z "$PROJECT" ] ; then
-	echo "Blank (b), new (n) or exists (x) project?"
-	echo "default - blank (b):"
-	read PROJECT
-fi
 
 if [ "$PROJECT" == n ] || [ "$PROJECT" == new ]
 then
