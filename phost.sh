@@ -109,12 +109,6 @@ if [ -z "$DELETE" ] ; then
 	service nginx restart
 	service php7.0-fpm restart
 
-	#if [ -z "$DBVERS" ] ; then
-	#	echo "MySQL[1] or PostgreSQL[2]"
-	#	echo "(default 1):"
-	#	read DBVERS
-	#fi
-
 	echo "Enter DataBase root password:"
 	read -s ROOTPASS
 
